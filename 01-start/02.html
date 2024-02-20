@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Canvas</title>
+    <style>
+      body {
+        margin: 0;
+      }
+
+      .canvas {
+        width: 500px;
+        height: 300px;
+        background: #eee;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>캔버스 사이즈 설정</h1>
+    <!--
+      canvas의 width, height 속성과 css에서의 width, height 속성을 서로 다르다.
+      디바이스 크기의 2배로 늘라디음 css 를 통해 너비와 높이를 100%를 해 둔다면 해상도가 더욱 좋은 canvas를 표현할 수 있다.
+      다만, 렌더링이 더욱 오래 걸린다.
+    -->
+    <canvas class="canvas" width="500" height="300"></canvas>
+    <canvas class="canvas canvas2" width="1000" height="600"></canvas>
+
+    <script>
+      const canvas1 = document.querySelector('.canvas');
+      const canvas2 = document.querySelector('.canvas2');
+
+      const context1 = canvas1.getContext('2d');
+      const context2 = canvas2.getContext('2d');
+
+      context1.arc(100, 100, 50, 0, Math.PI * 2, false);
+      context2.arc(100, 100, 50, 0, Math.PI * 2, false);
+
+      context1.fill();
+      context2.fill();
+    </script>
+  </body>
+</html>

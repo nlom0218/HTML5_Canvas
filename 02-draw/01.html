@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Canvas</title>
+    <style>
+      body {
+        margin: 0;
+      }
+
+      canvas {
+        background-color: #eee;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas width="600" height="400"></canvas>
+
+    <script>
+      const canvas = document.querySelector('canvas');
+      const context = canvas.getContext('2d'); // 캔버스는 context에서 작업이 이루어진다.
+
+      // fillRect 사각형
+      context.fillRect(50, 50, 100, 100); // 그림을 그리는 개념으로 생각하면 된다. 1) 첫번째 사각형을 그리고
+      context.fillStyle = 'red'; // 2) 빨간색 붓으로 바꾼다.
+      context.fillRect(0, 0, 100, 100); // 3) 세번째 사각형을 그린다.
+
+      // clearRect 지우개
+      context.clearRect(50, 50, 50, 50);
+
+      // strokeRect 선(css의 border같은 개념)
+      context.strokeRect(150, 150, 100, 100);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Canvas</title>
+    <style>
+      body {
+        margin: 0;
+      }
+
+      canvas {
+        background-color: #eee;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas width="600" height="400"></canvas>
+
+    <script>
+      const canvas = document.querySelector('canvas');
+      const context = canvas.getContext('2d'); // 캔버스는 context에서 작업이 이루어진다.
+
+      // beginPath 선의 시작을 알리기
+      context.beginPath();
+
+      // moveTo 붓을 옮긴다.
+      context.moveTo(100, 100);
+
+      // lineTo 선을 만든다. 선은 보이지 않는다.
+      context.lineTo(300, 200);
+
+      // stroke 선을 캔버스에 긋는다.
+      context.stroke();
+
+      // closePath 선의 끝을 알리기, 새로 시작하는 곳에서 beginPath를 호출하면 굳이 필요없다.
+      context.closePath();
+    </script>
+  </body>
+</html>
