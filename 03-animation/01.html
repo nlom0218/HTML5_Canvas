@@ -19,6 +19,8 @@
       const context = canvas.getContext('2d');
 
       let xPos = 10;
+      let timerId;
+      let isPlay = false;
 
       function draw() {
         context.clearRect(0, 0, canvas.width, canvas.height); // 지우기
@@ -30,10 +32,22 @@
 
         xPos += 1;
 
-        requestAnimationFrame(draw);
+        // 조건문을 통해 애니메이션 설정
+        // if (xPos < canvas.width - 10)
+
+        timerId = requestAnimationFrame(draw);
+        if (xPos >= canvas.width - 10) cancelAnimationFrame(timerId);
       }
 
-      draw();
+      canvas.addEventListener('click', () => {
+        if (isPlay) {
+          cancelAnimationFrame(timerId);
+          isPlay = false;
+        } else {
+          requestAnimationFrame(draw);
+          isPlay = true;
+        }
+      });
     </script>
   </body>
 </html>

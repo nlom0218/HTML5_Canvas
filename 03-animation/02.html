@@ -19,6 +19,7 @@
       const context = canvas.getContext('2d');
 
       let xPos = 10;
+      let timerId;
 
       function draw() {
         context.clearRect(0, 0, canvas.width, canvas.height); // 지우기
@@ -31,7 +32,11 @@
         xPos += 1;
       }
 
-      setInterval(draw, 500);
+      timerId = setInterval(draw, 10);
+
+      canvas.addEventListener('click', () => {
+        clearInterval(timerId);
+      });
     </script>
   </body>
 </html>
