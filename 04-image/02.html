@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Canvas</title>
+    <style>
+      canvas {
+        background-color: #eee;
+      }
+
+      .color-btn {
+        width: 30px;
+        height: 30px;
+        border: 0;
+        border-radius: 50%;
+
+        cursor: pointer;
+      }
+      .color-btn[data-color='black'] {
+        background-color: black;
+      }
+      .color-btn[data-color='red'] {
+        background-color: red;
+      }
+      .color-btn[data-color='green'] {
+        background-color: green;
+      }
+      .color-btn[data-color='blue'] {
+        background-color: blue;
+      }
+      .image-btn {
+        width: 30px;
+        height: 30px;
+        border: 0;
+        border-radius: 50%;
+        background: url('/asset/캐릭터.webp');
+        background-size: cover;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Image</h1>
+    <canvas width="600" height="600"></canvas>
+    <div class="control">
+      <button class="color-btn" data-type="color" data-color="black"></button>
+      <button class="color-btn" data-type="color" data-color="red"></button>
+      <button class="color-btn" data-type="color" data-color="green"></button>
+      <button class="color-btn" data-type="color" data-color="blue"></button>
+      <button class="image-btn" data-type="image" data-color="blue"></button>
+    </div>
+    <button class="save-btn">save</button>
+
+    <script>
+      const canvas = document.querySelector('canvas');
+      const control = document.querySelector('.control');
+      const saveBtn = document.querySelector('.save-btn');
+
+      const context = canvas.getContext('2d');
+
+      let isDrawing = false;
+      let brush = 'color';
+      let colorVal = 'black';
+
+      const imgElem2 = new Image();
+      imgElem2.src = '/asset/캐릭터.webp';
+
+      const upHandler = () => {
+        isDrawing = false;
+      };
+
+      const downHandler = () => {
+        isDrawing = true;
+      };
+
+      const moveHandler = (event) => {
+        if (!isDrawing) return;
+        const [x, y] = [event.offsetX, event.offsetY];
+
+        if (brush === 'color') {
+          context.beginPath();
+
+          context.arc(x, y, 10, 0, Math.PI * 2, false);
+          context.fill();
+        }
+
+        if (brush === 'image') {
+          context.drawImage(imgElem2, x, y, 20, 20);
+        }
+      };
+
+      const setColor = (event) => {
+        brush = event.target.dataset.type;
+
+        if (brush === 'color') context.fillStyle = event.target.dataset.color;
+      };
+
+      canvas.addEventListener('mouseup', upHandler);
+      canvas.addEventListener('mousedown', downHandler);
+      canvas.addEventListener('mousemove', moveHandler);
+
+      control.addEventListener('click', setColor);
+
+      saveBtn.addEventListener('click', () => {
+        const url = canvas.toDataURL('/asset/png');
+
+        const link = document.createElement('a');
+
+        link.href = url;
+        link.download = '이미지';
+        link.click();
+      });
+
+      const imgElem = new Image();
+      imgElem.src = '/asset/색칠공부.webp';
+
+      imgElem.addEventListener('load', () => {
+        context.drawImage(imgElem, 0, 0, canvas.width, canvas.height);
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Canvas</title>
+    <style>
+      canvas {
+        background-color: #eee;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Image</h1>
+    <canvas width="700" height="450"></canvas>
+
+    <script>
+      const canvas = document.querySelector('canvas');
+      const context = canvas.getContext('2d');
+
+      const imgElem = new Image();
+      imgElem.src = 'https://source.unsplash.com/random';
+
+      imgElem.addEventListener('load', () => {
+        context.drawImage(imgElem, 0, 0, canvas.width, canvas.height);
+      });
+    </script>
+  </body>
+</html>
