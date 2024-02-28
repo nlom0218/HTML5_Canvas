@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Canvas</title>
+    <style>
+      canvas {
+        background-color: #eee;
+      }
+      video {
+        position: absolute;
+        width: 0;
+        height: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Video</h1>
+    <div>
+      캔버스에서 비디오를 사용하는 이유는 그래픽적으로 조작이 가능하기 때문이다.
+    </div>
+    <video class="video" src="/asset/video.mp4" autoplay muted loop></video>
+
+    <canvas class="canvas" width="700" height="450"></canvas>
+
+    <div class="btn">
+      <button class="btn" data-color="red">R</button>
+      <button class="btn" data-color="green">G</button>
+      <button class="btn" data-color="blue">B</button>
+      <button class="btn" data-color="">Reset</button>
+    </div>
+
+    <script>
+      const canvas = document.querySelector('.canvas');
+      const video = document.querySelector('.video');
+      const btnElem = document.querySelector('.btn');
+
+      const context = canvas.getContext('2d');
+
+      context.textAlign = 'center';
+      context.fillText('비디오 로딩 중..', 350, 225);
+
+      let colorValue;
+      let imageData;
+      let length;
+
+      const render = () => {
+        context.drawImage(video, 0, 0, 700, 450);
+        imageData = context.getImageData(0, 0, 700, 450);
+        length = imageData.data.length / 4;
+
+        for (let i = 0; i < length; i++) {
+          switch (colorValue) {
+            case 'red':
+              imageData.data[i * 4 + 0] = 255;
+              break;
+            case 'green':
+              imageData.data[i * 4 + 1] = 255;
+              break;
+            case 'blue':
+              imageData.data[i * 4 + 2] = 255;
+              break;
+          }
+        }
+
+        context.putImageData(imageData, 0, 0);
+        requestAnimationFrame(render);
+      };
+
+      video.addEventListener('canplaythrough', render);
+
+      btnElem.addEventListener('click', function (e) {
+        colorValue = e.target.getAttribute('data-color');
+      });
+    </script>
+  </body>
+</html>

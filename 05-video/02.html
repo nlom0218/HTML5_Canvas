@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Canvas</title>
+    <style>
+      canvas {
+        background-color: #eee;
+      }
+      video {
+        position: absolute;
+        width: 0;
+        height: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Video</h1>
+    <video class="video" src="/asset/video.mp4" autoplay muted loop></video>
+
+    <canvas class="canvas" width="700" height="450"></canvas>
+
+    <script>
+      const canvas = document.querySelector('.canvas');
+      const video = document.querySelector('.video');
+
+      let canPalyState = false;
+
+      const context = canvas.getContext('2d');
+
+      context.textAlign = 'center';
+      context.fillText('비디오 로딩 중..', 350, 225);
+
+      context.font = 'bold 50px serif';
+      context.fillStyle = 'red';
+
+      const messages = [
+        { time: 1, message: '1 ㅋㅋ', x: 100, y: 100 },
+        { time: 3, message: '2 ㅎㅎ', x: 300, y: 300 },
+        { time: 5, message: '3 ㅊㅊ', x: 400, y: 200 },
+      ];
+
+      const render = () => {
+        context.drawImage(video, 0, 0, 700, 450);
+        context.fillText(String(video.currentTime), 550, 420);
+
+        for (let i = 0; i < messages.length; i++) {
+          const { time, message, x, y } = messages[i];
+
+          if (video.currentTime > time) {
+            context.fillText(message, x, y);
+          }
+        }
+
+        requestAnimationFrame(render);
+      };
+
+      video.addEventListener('canplaythrough', render);
+    </script>
+  </body>
+</html>
