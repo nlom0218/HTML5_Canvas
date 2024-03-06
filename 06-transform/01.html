@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Canvas</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      .canvas {
+        background: #eee;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Transform</h1>
+    <canvas class="canvas" width="500" height="500"></canvas>
+
+    <script>
+      const canvas = document.querySelector('.canvas');
+      const context = canvas.getContext('2d');
+
+      context.fillRect(100, 100, 200, 200);
+      context.fillStyle = 'orange';
+      context.fillRect(180, 180, 200, 200);
+
+      context.save(); // canvas의 모든 상태를 저장
+
+      context.fillStyle = 'blue';
+      context.beginPath();
+      context.arc(330, 330, 50, 0, Math.PI * 2, false);
+      context.fill();
+
+      context.restore(); // 가장 최근에 저장된 canvas 상태를 복원
+
+      context.beginPath();
+      context.arc(420, 420, 50, 0, Math.PI * 2, false);
+      context.fill();
+    </script>
+  </body>
+</html>

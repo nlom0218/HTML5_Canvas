@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Canvas</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      .canvas {
+        background: #eee;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Transform</h1>
+    <canvas class="canvas" width="500" height="500"></canvas>
+    <script>
+      const canvas = document.querySelector('.canvas');
+      const context = canvas.getContext('2d');
+
+      let scaleValue = 1;
+      let rotationValue = 0;
+
+      const toRadian = (d) => (Math.PI / 180) * d;
+
+      function draw() {
+        // context.clearRect(0, 0, canvas.width, canvas.height);
+
+        context.save(); // 지운것을 저장한다.
+
+        // 움직인 다음
+
+        context.setTransform(1, 0, 0, 1, 0, 0); // 변환을 초기화
+        // === context.restTransform();
+
+        context.translate(350, 350);
+
+        context.scale(scaleValue, scaleValue);
+        scaleValue += 0.05;
+
+        context.rotate(toRadian(rotationValue));
+        rotationValue += 1;
+
+        // 변환 과정을 끝낸 후 그리기
+        context.strokeRect(-50, -50, 100, 100);
+
+        // 다시 되돌린다.
+        context.restore();
+
+        context.fillRect(10, 10, 30, 30);
+
+        requestAnimationFrame(draw);
+      }
+
+      draw();
+    </script>
+  </body>
+</html>
