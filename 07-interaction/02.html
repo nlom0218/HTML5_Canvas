@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Canvas</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      canvas {
+        background: #eee;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Interaction</h1>
+    <canvas class="canvas" width="600" height="400"></canvas>
+    <script src="Box.js"></script>
+    <script>
+      const canvas = document.querySelector('.canvas');
+      const context = canvas.getContext('2d');
+
+      context.font = 'bold 20px sans-serif';
+
+      const mousePos = { x: 0, y: 0 };
+      const boxes = [];
+
+      let tempX, tempY;
+      let width, height;
+      for (let i = 0; i < 10; i++) {
+        tempX = Math.random() * (canvas.width * 0.8);
+        tempY = Math.random() * (canvas.height * 0.8);
+
+        width = Math.random() * 100 + 50;
+        height = Math.random() * 100 + 50;
+
+        const box = new Box(tempX, tempY, width, height, i + 1);
+        box.draw(context);
+        boxes.push(box);
+      }
+
+      canvas.addEventListener('click', (event) => {
+        const { offsetX, offsetY } = event;
+
+        mousePos.x = offsetX;
+        mousePos.y = offsetY;
+
+        boxes.forEach((box) => box.handleClick(mousePos));
+      });
+    </script>
+  </body>
+</html>
