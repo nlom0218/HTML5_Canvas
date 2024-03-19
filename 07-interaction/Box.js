@@ -1,5 +1,5 @@
 class Box {
-  constructor(posX, posY, width, height, index) {
+  constructor(posX, posY, width, height, index, speed) {
     this.posX = posX;
     this.posY = posY;
 
@@ -7,13 +7,16 @@ class Box {
     this.height = height;
 
     this.index = index;
+    this.speed = speed;
+
+    this.textColor = '#fff';
   }
 
   draw(context) {
     context.fillStyle = 'rgba(0, 0, 0, 0.5)';
     context.fillRect(this.posX, this.posY, this.width, this.height);
 
-    context.fillStyle = '#fff';
+    context.fillStyle = this.textColor;
     context.fillText(
       this.index,
       this.posX + this.width / 2,
@@ -30,11 +33,6 @@ class Box {
     )
       return;
 
-    context.fillStyle = 'red';
-    context.fillText(
-      this.index,
-      this.posX + this.width / 2,
-      this.posY + this.height / 2
-    );
+    this.textColor = 'red';
   }
 }

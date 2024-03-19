@@ -26,6 +26,7 @@
 
       let tempX, tempY;
       let width, height;
+      let speed;
       for (let i = 0; i < 10; i++) {
         tempX = Math.random() * (canvas.width * 0.8);
         tempY = Math.random() * (canvas.height * 0.8);
@@ -33,10 +34,31 @@
         width = Math.random() * 100 + 50;
         height = Math.random() * 100 + 50;
 
-        const box = new Box(tempX, tempY, width, height, i + 1);
+        speed = Math.random() * 2 + 1;
+
+        const box = new Box(tempX, tempY, width, height, i + 1, speed);
         box.draw(context);
         boxes.push(box);
       }
+
+      const render = () => {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        for (let i = 0; i < boxes.length; i++) {
+          const box = boxes[i];
+
+          box.posX += box.speed;
+          if (box.posX > canvas.width) {
+            box.posX = -box.width;
+          }
+
+          box.draw(context);
+        }
+
+        requestAnimationFrame(render);
+      };
+
+      render();
 
       canvas.addEventListener('click', (event) => {
         const { offsetX, offsetY } = event;
