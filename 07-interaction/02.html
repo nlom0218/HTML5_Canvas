@@ -15,6 +15,7 @@
     <h1>Interaction</h1>
     <canvas class="canvas" width="600" height="400"></canvas>
     <script src="Box.js"></script>
+    <script src="Panel.js"></script>
     <script>
       const canvas = document.querySelector('.canvas');
       const context = canvas.getContext('2d');
@@ -24,41 +25,74 @@
       const mousePos = { x: 0, y: 0 };
       const boxes = [];
 
+      const panel = new Panel();
+
       let tempX, tempY;
       let width, height;
       let speed;
-      for (let i = 0; i < 10; i++) {
-        tempX = Math.random() * (canvas.width * 0.8);
-        tempY = Math.random() * (canvas.height * 0.8);
+      let step; // 애플리케이션의 상태(단계)를 저장
+      let selectedBox;
 
-        width = Math.random() * 100 + 50;
-        height = Math.random() * 100 + 50;
+      const init = () => {
+        step = 1;
+        for (let i = 0; i < 10; i++) {
+          tempX = Math.random() * (canvas.width * 0.8);
+          tempY = Math.random() * (canvas.height * 0.8);
 
-        speed = Math.random() * 2 + 1;
+          width = Math.random() * 100 + 50;
+          height = Math.random() * 100 + 50;
 
-        const box = new Box(tempX, tempY, width, height, i + 1, speed);
-        box.draw(context);
-        boxes.push(box);
-      }
+          speed = Math.random() * 2 + 1;
+
+          const box = new Box(tempX, tempY, width, height, i + 1, speed);
+          box.draw(context);
+          boxes.push(box);
+        }
+
+        render();
+      };
 
       const render = () => {
         context.clearRect(0, 0, canvas.width, canvas.height);
 
+        let box;
+
         for (let i = 0; i < boxes.length; i++) {
           const box = boxes[i];
 
-          box.posX += box.speed;
-          if (box.posX > canvas.width) {
-            box.posX = -box.width;
-          }
+          box.draw();
+        }
 
-          box.draw(context);
+        switch (step) {
+          case 1:
+            for (let i = 0; i < boxes.length; i++) {
+              const box = boxes[i];
+
+              box.posX += box.speed;
+              if (box.posX > canvas.width) {
+                box.posX = -box.width;
+              }
+            }
+            break;
+
+          case 2:
+            panel.calculateScale += 0.02;
+            panel.draw();
+            if (panel.calculateScale >= 1) {
+              step = 3;
+            }
+            break;
+
+          case 3:
+            panel.draw();
+            panel.showContent();
+            break;
         }
 
         requestAnimationFrame(render);
       };
 
-      render();
+      init();
 
       canvas.addEventListener('click', (event) => {
         const { offsetX, offsetY } = event;
@@ -66,7 +100,18 @@
         mousePos.x = offsetX;
         mousePos.y = offsetY;
 
-        boxes.forEach((box) => box.handleClick(mousePos));
+        boxes.some((box) => {
+          let result = false;
+          box.reset();
+          step = 1;
+          box.handleClick(mousePos, (index) => {
+            step = 2;
+            result = true;
+            selectedBox = index;
+          });
+
+          if (result) return true;
+        });
       });
     </script>
   </body>

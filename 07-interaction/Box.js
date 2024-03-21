@@ -12,7 +12,7 @@ class Box {
     this.textColor = '#fff';
   }
 
-  draw(context) {
+  draw() {
     context.fillStyle = 'rgba(0, 0, 0, 0.5)';
     context.fillRect(this.posX, this.posY, this.width, this.height);
 
@@ -24,7 +24,11 @@ class Box {
     );
   }
 
-  handleClick(mousePos) {
+  reset() {
+    this.textColor = '#fff';
+  }
+
+  handleClick(mousePos, callback) {
     if (
       mousePos.x < this.posX ||
       mousePos.x > this.posX + this.width ||
@@ -34,5 +38,6 @@ class Box {
       return;
 
     this.textColor = 'red';
+    callback(this.index);
   }
 }
